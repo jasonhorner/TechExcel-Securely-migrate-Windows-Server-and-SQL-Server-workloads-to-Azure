@@ -23,6 +23,44 @@
         "description": "The location were all resources are created."
       }
     },
+    "sqlMiSku": {
+    "type": "string",
+    "defaultValue": "GP_Gen5",
+    "allowedValues": [
+      "GP_Gen4",
+      "GP_Gen5"
+    ],
+    "metadata": {
+      "description": "The SKU of the SQL Managed Instance. Allowed values: GP_Gen5, BC_Gen5, GP_Gen4, BC_Gen4."
+    }
+  },
+  "sqlMiVCores": {
+    "type": "int",
+    "defaultValue": 8,
+    "allowedValues": [
+      4,
+      8
+    ],
+    "metadata": {
+      "description": "The number of vCores for the SQL Managed Instance. Allowed values: 4, 8, 16, 24, 32."
+    }
+  },
+"vmSize": {
+    "type": "string",
+    "defaultValue": "Standard_D4s_v5",
+    "allowedValues": [
+      "Standard_D4s_v5", // Default value
+      "Standard_D4as_v5", // AMD-based, 4 vCPUs, premium storage
+      "Standard_D4_v5", // Intel-based, 4 vCPUs, non-premium storage
+      "Standard_D4d_v5", // Intel-based, 4 vCPUs, premium storage
+      "Standard_D4ds_v5", // Intel-based, 4 vCPUs, premium storage
+      "Standard_D4as_v4", // AMD-based, 4 vCPUs, non-premium storage
+      "Standard_D4a_v4" // AMD-based, 4 vCPUs, non-premium storage
+    ],
+    "metadata": {
+      "description": "The VM size for the virtual machines. Allows Intel and AMD 4-core options with premium and non-premium storage."
+    }
+  }
     "azureAdUserId": {
       "type": "string",
       "metadata": {
@@ -285,9 +323,9 @@
       "properties": {
         "subnetId": "[format('{0}/subnets/AzureSQLMI', resourceId('Microsoft.Network/virtualNetworks', format('{0}vnet', variables('spokeNamePrefix'))))]",
         "storageSizeInGB": 64,
-        "vCores": 8,
+        "vCores": "[parameters('sqlMiVCores')]",
         "licenseType": "LicenseIncluded",
-        "hardwareFamily": "Gen5",
+        "hardwareFamily": "[parameters('sqlMi')]",
         "zoneRedundant": false,
         "minimalTlsVersion": "1.2",
         "requestedBackupStorageRedundancy": "Geo",
